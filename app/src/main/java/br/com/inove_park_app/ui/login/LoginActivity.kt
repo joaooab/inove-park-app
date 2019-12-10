@@ -3,7 +3,6 @@ package br.com.inove_park_app.ui.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import br.com.inove_park_app.MainActivity
 import br.com.inove_park_app.R
 import kotlinx.android.synthetic.main.activity_login.*
 

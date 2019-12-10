@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import br.com.inove_park_app.R
-import br.com.inove_park_app.extension.USER_PREFERENCES
-import br.com.inove_park_app.extension.getStringPreferences
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class HomeFragment : Fragment() {
 
@@ -21,16 +21,23 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val user = context?.getStringPreferences(USER_PREFERENCES)
-        if (user.isNullOrEmpty()) {
-            val intent = HomeFragmentDirections.actionNavigationHomeToUserFragment()
-            view?.findNavController()?.navigate(intent)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapaVendasInfoWindowFragment =
+            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapaVendasInfoWindowFragment.getMapAsync { map ->
+            map.addMarker(
+                MarkerOptions().position(
+                    LatLng(
+                        -25.443150,
+                        -49.238243
+                    )
+                ).title("Jardim Botânico")
+            )
         }
     }
 }
