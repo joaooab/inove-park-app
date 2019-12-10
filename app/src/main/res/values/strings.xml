@@ -5,6 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="password">senha</string>
     <string name="login">Entrar</string>
+    <string name="park">Estacionar</string>
     <string name="e_mail">e-mail</string>
     <string name="register">Cadastrar</string>
     <string name="success_register">Cadastrado com sucesso</string>
@@ -14,7 +15,7 @@
     <string name="birth_date">Data de nascimento</string>
     <string name="invalid_value">"Valor inválido"</string>
     <string name="required_field">"Campo obrigatório"</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -28,4 +29,5 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="balance">Saldo:</string>
 </resources>
