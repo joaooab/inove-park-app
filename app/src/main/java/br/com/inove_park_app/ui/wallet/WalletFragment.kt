@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.inove_park_app.R
+import br.com.inove_park_app.data.Transfer
+import kotlinx.android.synthetic.main.fragment_wallet.*
+import java.time.LocalDateTime
+import java.util.*
 
 class WalletFragment : Fragment() {
 
@@ -21,5 +25,17 @@ class WalletFragment : Fragment() {
     ): View? {
         walletViewModel = ViewModelProviders.of(this).get(WalletViewModel::class.java)
         return inflater.inflate(R.layout.fragment_wallet, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val calendar = Calendar.getInstance()
+        recyclerView.adapter = WalletAdapter(
+            mutableListOf(
+                Transfer(value = 10.0, date = calendar),
+                Transfer(value = 20.0, date = calendar),
+                Transfer(value = 30.0, date = calendar)
+            )
+        )
     }
 }
