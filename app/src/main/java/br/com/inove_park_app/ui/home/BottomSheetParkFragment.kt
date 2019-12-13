@@ -3,6 +3,7 @@ package br.com.inove_park_app.ui.home
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.widget.NumberPicker
 import br.com.inove_park_app.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -23,8 +24,16 @@ class BottomSheetParkFragment : BottomSheetDialogFragment() {
 //        setUpBackPress(view)
 //        setUpDone(view)
         dialog.setContentView(view)
+        setUpNumberPicker(view)
         mBehavior = BottomSheetBehavior.from(view.parent as View)
         return dialog
+    }
+
+    private fun setUpNumberPicker(view: View) {
+        view.findViewById<NumberPicker>(R.id.numberPicker).apply {
+            minValue = 0
+            maxValue = 24
+        }
     }
 
 }
