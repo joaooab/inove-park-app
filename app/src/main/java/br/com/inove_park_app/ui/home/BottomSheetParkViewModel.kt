@@ -27,10 +27,10 @@ class BottomSheetParkViewModel : ViewModel() {
     private val _total = MutableLiveData<Double>()
     val total = _total
 
-    private val _balance = MutableLiveData<Double>(WalletUser.wallet.balance)
+    private val _balance = MutableLiveData<Double>(0.0)
     val balance = _balance
 
-    private val _cost = MutableLiveData<Double>()
+    private val _cost = MutableLiveData<Double>(0.0)
     val cost = _cost
 
     private lateinit var countDownTimer: CountDownTimer
