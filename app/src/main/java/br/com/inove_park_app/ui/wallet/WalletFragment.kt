@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.inove_park_app.R
 import br.com.inove_park_app.data.Transfer
 import kotlinx.android.synthetic.main.fragment_wallet.*
-import java.time.LocalDateTime
 import java.util.*
 
 class WalletFragment : Fragment() {
@@ -30,11 +27,14 @@ class WalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val calendar = Calendar.getInstance()
+        textViewAddBalance.setOnClickListener {
+
+        }
         recyclerView.adapter = WalletAdapter(
             mutableListOf(
-                Transfer(value = 10.0, date = calendar),
-                Transfer(value = 20.0, date = calendar),
-                Transfer(value = 30.0, date = calendar)
+                Transfer(balance = 10.0, date = calendar),
+                Transfer(balance = 20.0, date = calendar),
+                Transfer(balance = 30.0, date = calendar)
             )
         )
     }

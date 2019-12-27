@@ -20,6 +20,8 @@ object LayoutUtil : KoinComponent {
 
     fun getColor(color: Int) = ContextCompat.getColor(context, color)
 
+    fun getColorStateList(color: Int) = ContextCompat.getColorStateList(context, color)
+
     fun getDrawable(drawable: Int) = ContextCompat.getDrawable(context, drawable)
 
     fun getString(idString: Int): String = context.getString(idString)

@@ -33,7 +33,7 @@ class WalletAdapter(private val list: MutableList<Transfer> = mutableListOf()) :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(transfer: Transfer) {
             itemView.textViewType.text = transfer.type
-            itemView.textViewValue.text = transfer.value.format()
+            itemView.textViewValue.text = transfer.balance.format()
             itemView.textViewDate.text = transfer.date.formatIso8601()
         }
     }

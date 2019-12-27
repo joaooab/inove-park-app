@@ -30,4 +30,10 @@
     <string name="menu_send">Send</string>
     <string name="balance">Saldo:</string>
     <string name="history">Histórico</string>
+    <string name="finish">Finalizar</string>
+    <string name="begin">Iniciar</string>
+    <string name="cost">Custo:</string>
+    <string name="total">Total:</string>
+    <string name="add_balance">Add Saldo</string>
+    <string name="transfer">Transferência</string>
 </resources>
