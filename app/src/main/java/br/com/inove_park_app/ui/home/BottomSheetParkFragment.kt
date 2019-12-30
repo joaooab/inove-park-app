@@ -10,13 +10,13 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.inove_park_app.R
+import br.com.inove_park_app.extension.format
 import br.com.inove_park_app.ui.home.BottomSheetParkViewModel.Companion.MAX_VALUE
 import br.com.inove_park_app.ui.home.BottomSheetParkViewModel.Companion.MIN_VALUE
 import br.com.inove_park_app.util.LayoutUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.dialog_bottom_sheet_park.*
 
 class BottomSheetParkFragment : BottomSheetDialogFragment() {
 
@@ -48,14 +48,14 @@ class BottomSheetParkFragment : BottomSheetDialogFragment() {
     private fun observeCost() {
         val textView = dialogView.findViewById<TextView>(R.id.textViewCost)
         viewModel.cost.observe(this, Observer {
-            textView.text = it.toString()
+            textView.text = it.format()
         })
     }
 
     private fun observeTotal() {
         val textView = dialogView.findViewById<TextView>(R.id.textViewTotal)
         viewModel.total.observe(this, Observer {
-            textView.text = it.toString()
+            textView.text = it.format()
         })
     }
 
@@ -63,7 +63,7 @@ class BottomSheetParkFragment : BottomSheetDialogFragment() {
         val textView = dialogView.findViewById<TextView>(R.id.textViewBalance)
         viewModel.balance.observe(this, Observer {
             viewModel.calculateTotal()
-            textView.text = it.toString()
+            textView.text = it.format()
         })
     }
 

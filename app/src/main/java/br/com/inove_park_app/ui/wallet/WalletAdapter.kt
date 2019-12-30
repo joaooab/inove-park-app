@@ -10,7 +10,7 @@ import br.com.inove_park_app.extension.format
 import br.com.inove_park_app.extension.formatIso8601
 import kotlinx.android.synthetic.main.item_transfer.view.*
 
-class WalletAdapter(private val list: MutableList<Transfer> = mutableListOf()) :
+class WalletAdapter(private val list: List<Transfer> = listOf()) :
     RecyclerView.Adapter<WalletAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

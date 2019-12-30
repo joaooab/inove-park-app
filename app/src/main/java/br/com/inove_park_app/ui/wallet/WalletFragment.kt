@@ -5,37 +5,52 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.inove_park_app.R
+import br.com.inove_park_app.data.TransferMemory
 import br.com.inove_park_app.data.Transfer
+import br.com.inove_park_app.extension.format
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import java.util.*
 
 class WalletFragment : Fragment() {
 
-    private lateinit var walletViewModel: WalletViewModel
+    private lateinit var viewModel: WalletViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        walletViewModel = ViewModelProviders.of(this).get(WalletViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(WalletViewModel::class.java)
         return inflater.inflate(R.layout.fragment_wallet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val calendar = Calendar.getInstance()
-        textViewAddBalance.setOnClickListener {
-
-        }
-        recyclerView.adapter = WalletAdapter(
-            mutableListOf(
-                Transfer(balance = 10.0, date = calendar),
-                Transfer(balance = 20.0, date = calendar),
-                Transfer(balance = 30.0, date = calendar)
-            )
-        )
+        observeWallet()
+        observeTransfers()
+        setUpAddBalance()
     }
+
+    private fun observeTransfers() {
+        viewModel.transfers.observe(this, Observer {
+            recyclerView.adapter = WalletAdapter(it)
+            viewModel.calculateTotalBalance()
+        })
+    }
+
+    private fun setUpAddBalance() {
+        textViewAddBalance.setOnClickListener {
+            viewModel.addTransfer(Transfer(balance = 10.0, date = Calendar.getInstance()))
+        }
+    }
+
+    private fun observeWallet() {
+        viewModel.wallet.observe(this, Observer {
+            textViewBalance.text = it.balance.format()
+        })
+    }
+
 }

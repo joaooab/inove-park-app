@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.inove_park_app.data.Cost
-import br.com.inove_park_app.data.WalletUser
+import br.com.inove_park_app.data.WalletMemory
 import java.util.concurrent.TimeUnit
 
 
@@ -27,10 +27,10 @@ class BottomSheetParkViewModel : ViewModel() {
     private val _total = MutableLiveData<Double>()
     val total = _total
 
-    private val _balance = MutableLiveData<Double>(0.0)
+    private val _balance = MutableLiveData<Double>(WalletMemory.wallet.balance)
     val balance = _balance
 
-    private val _cost = MutableLiveData<Double>(0.0)
+    private val _cost = MutableLiveData<Double>(WalletMemory.cost)
     val cost = _cost
 
     private lateinit var countDownTimer: CountDownTimer
@@ -82,13 +82,15 @@ class BottomSheetParkViewModel : ViewModel() {
     }
 
     fun calculateTotal() {
-        val balanceValue = _balance.value ?: 0.0
-        _total.value = balanceValue * Cost.value
+        val cost = _cost.value ?: 0.0
+        val balance = _balance.value ?: 0.0
+        val total = balance - cost
+        _total.value = total
     }
 
     fun changeCost(newVal: Int) {
-        val newCost = cost.value ?: 0.0
-        cost.value = newCost * newVal
+        val newCost = WalletMemory.wallet.balance * newVal
+        cost.value = newCost
     }
 
 }
