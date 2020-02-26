@@ -89,7 +89,7 @@ class BottomSheetParkViewModel : ViewModel() {
     }
 
     fun changeCost(newVal: Int) {
-        val newCost = WalletMemory.wallet.balance * newVal
+        val newCost = WalletMemory.cost * newVal
         cost.value = newCost
     }
 

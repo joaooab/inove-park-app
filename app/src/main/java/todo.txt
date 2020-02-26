@@ -1,0 +1,6 @@
+1. Add os pontos de area azul mais proximo ao local que estivermos.
+2. Permitir que seja agendado um local e fazer o pagamento previo para reservar o lugar.
+3. No botao estacionar, permitir saber a quantidade de vagas disponiveis. Nos pontos de area azul, add o icone de estacionamento.
+4. Ajustar a logo e detalhes do produto, ou seja , retirar tudo que nao seja da versao do mvp
+5. Ao selecionar a vaga, abrir o maps com a rota ou tracar a rota no app. Fazer o q ficar mais facil
+6. Logo com a resolucao boa e finalizar a parte visual

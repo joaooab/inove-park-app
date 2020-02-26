@@ -8,7 +8,6 @@ import android.widget.NumberPicker
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import br.com.inove_park_app.R
 import br.com.inove_park_app.extension.format
 import br.com.inove_park_app.ui.home.BottomSheetParkViewModel.Companion.MAX_VALUE
@@ -17,6 +16,7 @@ import br.com.inove_park_app.util.LayoutUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class BottomSheetParkFragment : BottomSheetDialogFragment() {
 
@@ -24,13 +24,12 @@ class BottomSheetParkFragment : BottomSheetDialogFragment() {
         fun newInstance() = BottomSheetParkFragment()
     }
 
-    private lateinit var viewModel: BottomSheetParkViewModel
+    private val viewModel: BottomSheetParkViewModel by viewModel()
     private var mBehavior: BottomSheetBehavior<*>? = null
     private lateinit var dialogView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        viewModel = ViewModelProviders.of(this).get(BottomSheetParkViewModel::class.java)
         dialogView = View.inflate(context, R.layout.dialog_bottom_sheet_park, null)
         dialog.setContentView(dialogView)
         setUpNumberPicker()
