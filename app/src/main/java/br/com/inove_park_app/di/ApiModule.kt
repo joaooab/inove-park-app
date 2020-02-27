@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit
 
 val apiModule = module {
     single { createWebService<MapsApi>("https://maps.googleapis.com/maps/api/") }
-
 }
 
 inline fun <reified T> createWebService(url: String): T {

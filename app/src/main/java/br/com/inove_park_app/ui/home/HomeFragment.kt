@@ -74,6 +74,10 @@ class HomeFragment : Fragment() {
             viewModel.getMarkerList().forEach {
                 map.addMarker(it)
             }
+            mMap.setOnMarkerClickListener {
+                viewModel.direction(it)
+                return@setOnMarkerClickListener true
+            }
         }
     }
 

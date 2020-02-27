@@ -1,12 +1,15 @@
 package br.com.inove_park_app.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.com.inove_park_app.data.maps.MapsRepository
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val mapsRepository: MapsRepository) : ViewModel() {
 
     private val markerList = listOf(
         MarkerOptions().position(
@@ -32,4 +35,11 @@ class HomeViewModel : ViewModel() {
     fun getMarkerList(): List<MarkerOptions> = markerList
 
     fun getFirstLatLong(): LatLng = markerList[0].position
+
+    fun direction(it: Marker?) {
+        viewModelScope.launch {
+            val s = mapsRepository.direction(markerList[0].position, markerList[1].position)
+            Log.e("",s)
+        }
+    }
 }
