@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import br.com.inove_park_app.MainActivity
 import br.com.inove_park_app.R
 import br.com.inove_park_app.extension.supportFragmentManager
@@ -55,6 +56,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpMap()
+        setUpButtonPark()
+        viewModel.route.observe(this, Observer {
+
+        })
+    }
+
+    private fun setUpButtonPark() {
         buttonPark.setOnClickListener {
             supportFragmentManager {
                 BottomSheetParkFragment
@@ -75,7 +83,7 @@ class HomeFragment : Fragment() {
                 map.addMarker(it)
             }
             mMap.setOnMarkerClickListener {
-                viewModel.direction(it)
+                viewModel.getDirection(it, mLastKnownLocation)
                 return@setOnMarkerClickListener true
             }
         }

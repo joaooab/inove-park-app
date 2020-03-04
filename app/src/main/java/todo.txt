@@ -1,3 +1,4 @@
+https://medium.com/@laurence.liuuu/android-google-maps-simple-usage-google-directions-api-1ae88c6187bc
 1. Add os pontos de area azul mais proximo ao local que estivermos.
 2. Permitir que seja agendado um local e fazer o pagamento previo para reservar o lugar.
 3. No botao estacionar, permitir saber a quantidade de vagas disponiveis. Nos pontos de area azul, add o icone de estacionamento.
