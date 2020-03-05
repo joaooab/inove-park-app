@@ -44,12 +44,12 @@ class HomeViewModel(private val mapsRepository: MapsRepository) : ViewModel() {
     fun getFirstLatLong(): LatLng = markerList[0].position
 
     fun getDirection(
-        it: Marker?,
+        marker: Marker?,
         mLastKnownLocation: Location?
     ) {
         viewModelScope.launch {
             val origin = LatLngUtil.toString(mLastKnownLocation)
-            val destination = LatLngUtil.toString(markerList[0].position)
+            val destination = LatLngUtil.toString(marker?.position)
             _route.value = mapsRepository.getDirections(origin, destination)
         }
     }

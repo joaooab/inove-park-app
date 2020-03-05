@@ -15,10 +15,14 @@ import br.com.inove_park_app.R
 import br.com.inove_park_app.extension.supportFragmentManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -57,10 +61,25 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpMap()
         setUpButtonPark()
-        viewModel.route.observe(this, Observer {
-
+        viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
+            val pointsList = PolyUtil.decode(direcetion.routes[0].overview_polyline.points)
+            mMap.addPolyline(PolylineOptions().addAll(pointsList))
+            mMap.animateCamera(updateCamera())
         })
     }
+
+    private fun updateCamera(): CameraUpdate? {
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+        val padding = (width * 0.15).toInt()
+        return CameraUpdateFactory.newLatLngBounds(
+            LatLngBounds.Builder().build(),
+            width,
+            height,
+            padding
+        )
+    }
+
 
     private fun setUpButtonPark() {
         buttonPark.setOnClickListener {
