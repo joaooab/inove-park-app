@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import br.com.inove_park_app.MainActivity
 import br.com.inove_park_app.R
+import br.com.inove_park_app.data.google.Direction
 import br.com.inove_park_app.extension.supportFragmentManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -62,10 +64,24 @@ class HomeFragment : Fragment() {
         setUpMap()
         setUpButtonPark()
         viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
-            val pointsList = PolyUtil.decode(direcetion.routes[0].overview_polyline.points)
+            val route = direcetion.routes[0]
+            val pointsList = PolyUtil.decode(route.overview_polyline.points)
+            mMap.clear()
+            markerDestination(direcetion)
             mMap.addPolyline(PolylineOptions().addAll(pointsList))
-            mMap.animateCamera(updateCamera())
+//            mMap.animateCamera(updateCamera())
         })
+    }
+
+    private fun markerDestination(direcetion: Direction) {
+        val destination = direcetion.routes[0].legs[0].end_location
+        val markerDestination = MarkerOptions().position(
+            LatLng(
+                destination.lat,
+                destination.lng
+            )
+        )
+        mMap.addMarker(markerDestination)
     }
 
     private fun updateCamera(): CameraUpdate? {
