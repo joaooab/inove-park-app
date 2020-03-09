@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import br.com.inove_park_app.MainActivity
 import br.com.inove_park_app.R
-import br.com.inove_park_app.data.google.Direction
 import br.com.inove_park_app.data.Park
+import br.com.inove_park_app.data.google.Direction
 import br.com.inove_park_app.extension.supportFragmentManager
 import br.com.inove_park_app.util.InfoWindowFactory
 import com.appolica.interactiveinfowindow.InfoWindow
@@ -27,8 +27,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -71,6 +71,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mapInfoWindowFragment =
+            childFragmentManager.findFragmentById(R.id.map) as MapInfoWindowFragment?
+        infoWindowManager = mapInfoWindowFragment!!.infoWindowManager()
+        infoWindowManager!!.setHideOnFling(true)
         setUpMap()
         setUpButtonPark()
         viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
