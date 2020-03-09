@@ -12,7 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import br.com.inove_park_app.MainActivity
 import br.com.inove_park_app.R
+import br.com.inove_park_app.data.Park
 import br.com.inove_park_app.extension.supportFragmentManager
+import br.com.inove_park_app.util.InfoWindowFactory
+import com.appolica.interactiveinfowindow.InfoWindow
+import com.appolica.interactiveinfowindow.InfoWindowManager
+import com.appolica.interactiveinfowindow.fragment.MapInfoWindowFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdate
@@ -21,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -42,6 +48,10 @@ class HomeFragment : Fragment() {
     private val mDefaultLocation = LatLng(-25.443150, -49.238243)
     private val DEFAULT_ZOOM = 12
     private var mLocationPermissionGranted: Boolean = false
+    private val infoWindowFactory = InfoWindowFactory()
+    private var mapInfoWindowFragment: MapInfoWindowFragment? = null
+    private lateinit var infoWindow: InfoWindow
+    private var infoWindowManager: InfoWindowManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +69,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mapInfoWindowFragment =
+            childFragmentManager.findFragmentById(R.id.map) as MapInfoWindowFragment?
+        infoWindowManager = mapInfoWindowFragment!!.infoWindowManager()
+        infoWindowManager!!.setHideOnFling(true)
         setUpMap()
         setUpButtonPark()
         viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
@@ -92,20 +106,36 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpMap() {
-        val supportMap = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val supportMap = childFragmentManager.findFragmentById(R.id.map) as MapInfoWindowFragment
         supportMap.getMapAsync { map ->
             mMap = map
             getLocationPermission()
             updateLocationUI()
             getDeviceLocation()
             viewModel.getMarkerList().forEach {
-                map.addMarker(it)
+                val marker = map.addMarker(it)
+                marker.tag = Park("Estacionamento")
             }
             mMap.setOnMarkerClickListener {
+                onMarkerClick(it)
                 viewModel.getDirection(it, mLastKnownLocation)
                 return@setOnMarkerClickListener true
             }
         }
+    }
+
+    fun onMarkerClick(marker: Marker): Boolean {
+        val offsetX = resources.getDimension(R.dimen.marker_offset_x).toInt()
+        val offsetY = resources.getDimension(R.dimen.marker_offset_y).toInt()
+
+        val markerSpec = InfoWindow.MarkerSpecification(offsetX, offsetY)
+
+        val windowFragment = infoWindowFactory.obterInfoWindowFragment(marker)
+        if (windowFragment != null) {
+            infoWindow = InfoWindow(marker, markerSpec, windowFragment)
+            infoWindowManager?.toggle(infoWindow, true)
+        }
+        return true
     }
 
     private fun getDeviceLocation() {
