@@ -78,11 +78,11 @@ class HomeFragment : Fragment() {
         setUpMap()
         setUpButtonPark()
         viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
-            val route = direcetion.routes[0]
-            val pointsList = PolyUtil.decode(route.overview_polyline.points)
-            mMap.clear()
+//            val route = direcetion.routes[0]
+//            val pointsList = PolyUtil.decode(route.overview_polyline.points)
+//            mMap.clear()
             markerDestination(direcetion)
-            mMap.addPolyline(PolylineOptions().addAll(pointsList))
+//            mMap.addPolyline(PolylineOptions().addAll(pointsList))
 //            mMap.animateCamera(updateCamera())
         })
     }
