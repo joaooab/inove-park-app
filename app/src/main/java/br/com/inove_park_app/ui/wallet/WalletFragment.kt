@@ -11,19 +11,20 @@ import br.com.inove_park_app.R
 import br.com.inove_park_app.data.TransferMemory
 import br.com.inove_park_app.data.Transfer
 import br.com.inove_park_app.extension.format
+import br.com.inove_park_app.ui.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_wallet.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class WalletFragment : Fragment() {
 
-    private lateinit var viewModel: WalletViewModel
+    private val viewModel: WalletViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(WalletViewModel::class.java)
         return inflater.inflate(R.layout.fragment_wallet, container, false)
     }
 

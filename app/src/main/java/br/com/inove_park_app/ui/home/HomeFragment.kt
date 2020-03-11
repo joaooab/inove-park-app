@@ -24,14 +24,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.PolyUtil
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.window_form_park.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -73,16 +69,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mapInfoWindowFragment =
             childFragmentManager.findFragmentById(R.id.map) as MapInfoWindowFragment?
-        infoWindowManager = mapInfoWindowFragment!!.infoWindowManager()
-        infoWindowManager!!.setHideOnFling(true)
+        infoWindowManager = mapInfoWindowFragment?.infoWindowManager()
+        infoWindowManager?.setHideOnFling(true)
         setUpMap()
         setUpButtonPark()
         viewModel.route.observe(viewLifecycleOwner, Observer { direcetion ->
-//            val route = direcetion.routes[0]
-//            val pointsList = PolyUtil.decode(route.overview_polyline.points)
-//            mMap.clear()
+            val route = direcetion.routes[0]
+            val pointsList = PolyUtil.decode(route.overview_polyline.points)
+            mMap.clear()
             markerDestination(direcetion)
-//            mMap.addPolyline(PolylineOptions().addAll(pointsList))
+            mMap.addPolyline(PolylineOptions().addAll(pointsList))
+            textViewQtdParking.text = "2"
 //            mMap.animateCamera(updateCamera())
         })
     }
@@ -128,13 +125,12 @@ class HomeFragment : Fragment() {
             getLocationPermission()
             updateLocationUI()
             getDeviceLocation()
-            viewModel.getMarkerList().forEach {
-                val marker = map.addMarker(it)
-                marker.tag = Park("Estacionamento")
+            viewModel.getMarkerList().forEachIndexed { index, markerOptions ->
+                val marker = map.addMarker(markerOptions)
+                marker.tag = Park("Estacionamento ${index + 1}")
             }
             mMap.setOnMarkerClickListener {
                 onMarkerClick(it)
-                viewModel.getDirection(it, mLastKnownLocation)
                 return@setOnMarkerClickListener true
             }
         }
@@ -146,7 +142,9 @@ class HomeFragment : Fragment() {
 
         val markerSpec = InfoWindow.MarkerSpecification(offsetX, offsetY)
 
-        val windowFragment = infoWindowFactory.obterInfoWindowFragment(marker)
+        val windowFragment = infoWindowFactory.obterInfoWindowFragment(marker) {
+            viewModel.getDirection(marker, mLastKnownLocation)
+        }
         if (windowFragment != null) {
             infoWindow = InfoWindow(marker, markerSpec, windowFragment)
             infoWindowManager?.toggle(infoWindow, true)

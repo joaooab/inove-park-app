@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Park(
-    private val name: String
+    val name: String = ""
 ) : Parcelable

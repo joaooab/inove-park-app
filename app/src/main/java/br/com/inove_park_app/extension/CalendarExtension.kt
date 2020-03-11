@@ -3,7 +3,7 @@ package br.com.inove_park_app.extension
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val DATE_TIME_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss"
+const val DATE_TIME_FORMAT_ISO_8601 = "yyyy-MM-dd HH:mm:ss"
 const val DATE_FORMAT_BR = "dd/MM/yyyy"
 const val DATE_FORMAT_US = "yyyy-MM-dd"
 const val DATE_TIME_FORMAT_BR = "dd/MM/yyyy HH:mm"
